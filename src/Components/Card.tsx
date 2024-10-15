@@ -10,8 +10,8 @@ import { IconButton } from '@mui/material';
 import { Button } from './Button';
 import { localStorage } from 'reactive-localstorage';
 import { LARGEST_CITIES_KEY } from '../../utils/offline-storage';
-import { ICity } from '@/app/page';
 import { DeleteButton } from './DeleteButton';
+import { ICity } from '@/features/HomePage';
 
 type Props = {
     isFavorite?: boolean;
@@ -35,8 +35,6 @@ export const Card = ({ cityName, image, detailsImage, population, geonameId, set
     });
 
     localStorage.on('change', (key, value) => {
-        console.log(`key ${key} changed to value ${value}`);
-
         if (key === 'favorites') {
             setFavorites(value);
         }

@@ -3,6 +3,8 @@ import { Cloud } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import React from 'react'
+import { FormSkeleton } from './FormSkeleton';
+import { Box } from '@mui/material';
 
 type Props = {
     userCurrentCity: string;
@@ -23,7 +25,11 @@ export const LocalWeatherCard = ({ userCurrentCity, isCurrentCityLoading, locati
     });
 
     if (isWeatherLoading) {
-        return 'City fetched. Fetching current weather information...';
+        return (
+            <Box m={16}>
+                <FormSkeleton noOfLoaders={5} />
+            </Box>
+        );
     }
 
     return (

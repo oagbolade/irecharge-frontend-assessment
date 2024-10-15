@@ -1,4 +1,4 @@
-import { ICity } from "@/app/page";
+import { ICity } from "@/features/HomePage";
 
 export const LARGEST_CITIES_KEY = 'stored-cities';
 export const LARGEST_CITIES_IMAGES_KEY = 'stored-city-images';

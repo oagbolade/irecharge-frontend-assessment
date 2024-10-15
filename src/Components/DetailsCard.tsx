@@ -61,7 +61,7 @@ export const DetailsCard = ({ weatherData }: Props) => {
             <a href="#">
                 {
                     isLoading ? 'Fetching City Image...' :
-                        <Image className='inline my-4' width={300} height={300}
+                        <Image className='inline my-4 rounded-lg' width={300} height={300}
                             src={currentCityImage || data?.[0]?.urls?.small}
                             alt={weatherData?.location?.name}
                         />
