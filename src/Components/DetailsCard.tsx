@@ -1,26 +1,80 @@
 import Image from 'next/image'
 import React from 'react'
+import { useGetParams } from '../../utils/useGetParams';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
-export const DetailsCard = () => {
+interface IWeatherData {
+    current: {
+        temp_c: number;
+        feelslike_c: number;
+        weather_descriptions: string[];
+        weather_icons: string[];
+        condition: {
+            text: string
+            icon: string
+        }
+        wind_kph: number
+    }
+    request: {
+        query: string
+    }
+    location: {
+        localtime: string;
+        name: string;
+        country: string;
+    }
+}
+
+type Props = {
+    cityName: string;
+    weatherData: IWeatherData
+}
+
+export const DetailsCard = ({ weatherData }: Props) => {
+    const currentCityImage = useGetParams('image') || '';
+
+    const cityName = weatherData?.location?.country;
+
+    const fetchRandomImages = async () => {
+        const url = `https://api.unsplash.com/photos/random?client_id=${process.env.NEXT_PUBLIC_UNSPLASH}&count=15&query=${cityName}&orientation=landscape`;
+
+        try {
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const { isLoading, data } = useQuery({
+        queryKey: ['fetchRandomImagesLocal', cityName],
+        queryFn: () => fetchRandomImages(),
+        enabled: Boolean((currentCityImage || '').length === 0)
+    });
+
     return (
-
         <div className="mb-10 rounded overflow-hidden flex flex-col mx-auto text-center">
             <a href="#"
-                className="max-w-3xl mx-auto text-xl sm:text-4xl font-semibold inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2">The
-                Lagos, Nigeria</a>
-
+                className="max-w-3xl mx-auto text-xl sm:text-4xl font-semibold inline-block hover:text-indigo-600 transition duration-500 ease-in-out mb-2">
+                {weatherData?.location?.name}, {weatherData?.location?.country} </a>
             <a href="#">
-                <img className="w-full my-4"
-                    src="https://images.pexels.com/photos/5120892/pexels-photo-5120892.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;h=625.0&amp;sharp=10&amp;w=1500"
-                    alt="Sunset in the mountains" />
+                {
+                    isLoading ? 'Fetching City Image...' :
+                        <Image className='inline my-4' width={300} height={300}
+                            src={currentCityImage || data?.[0]?.urls?.small}
+                            alt={weatherData?.location?.name}
+                        />
+                }
             </a>
             <p className="text-gray-700 text-base leading-8 max-w-2xl mx-auto">
-                Weather is Partly Cloudy <Image className='inline' width={30} height={30}
-                    src="https://cdn.worldweatheronline.com/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png"
+                Weather is {weatherData?.current?.condition?.text}{' '}
+                <Image className='inline' width={30} height={30}
+                    src={`https:${weatherData?.current?.condition?.icon}`}
                     alt="Sunset in the mountains" />
             </p>
             <p className="text-gray-700 text-base leading-8 max-w-2xl mx-auto">
-                Wind Speed: 18 km/h
+                Wind Speed: {weatherData?.current.wind_kph} km/h
             </p>
             <div className="py-5 text-sm font-regular text-gray-900 flex items-center justify-center">
                 <span className="mr-3 flex flex-row items-center">
@@ -35,7 +89,7 @@ export const DetailsCard = () => {
                             </g>
                         </g>
                     </svg>
-                    <span className="ml-1">12:00pm</span></span>
+                    <span className="ml-1">{weatherData?.location.localtime.split(' ')[1]}</span></span>
                 <a href="#" className="flex flex-row items-center hover:text-indigo-600  mr-3">
                     <svg className="text-indigo-600" fill="currentColor" height="16px" aria-hidden="true" role="img"
                         focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
@@ -43,7 +97,7 @@ export const DetailsCard = () => {
                             d="M15.4496399,8.42490555 L8.66109799,1.63636364 L1.63636364,1.63636364 L1.63636364,8.66081885 L8.42522727,15.44178 C8.57869221,15.5954158 8.78693789,15.6817418 9.00409091,15.6817418 C9.22124393,15.6817418 9.42948961,15.5954158 9.58327627,15.4414581 L15.4486339,9.57610048 C15.7651495,9.25692435 15.7649133,8.74206554 15.4496399,8.42490555 Z M16.6084423,10.7304545 L10.7406818,16.59822 C10.280287,17.0591273 9.65554997,17.3181054 9.00409091,17.3181054 C8.35263185,17.3181054 7.72789481,17.0591273 7.26815877,16.5988788 L0.239976954,9.57887876 C0.0863319284,9.4254126 0,9.21716044 0,9 L0,0.818181818 C0,0.366312477 0.366312477,0 0.818181818,0 L9,0 C9.21699531,0 9.42510306,0.0862010512 9.57854191,0.239639906 L16.6084423,7.26954545 C17.5601275,8.22691012 17.5601275,9.77308988 16.6084423,10.7304545 Z M5,6 C4.44771525,6 4,5.55228475 4,5 C4,4.44771525 4.44771525,4 5,4 C5.55228475,4 6,4.44771525 6,5 C6,5.55228475 5.55228475,6 5,6 Z">
                         </path>
                     </svg>
-                    <span className="ml-1">Temperature is 28 degrees, feels like 32 degrees</span></a>
+                    <span className="ml-1">Temperature is {weatherData?.current.temp_c} °C, feels like {weatherData?.current.feelslike_c} °C</span></a>
             </div>
             <hr />
 
