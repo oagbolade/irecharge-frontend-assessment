@@ -13,12 +13,12 @@ export const useGetLocationPermission = () => {
                     setError(null);
                 },
                 (err) => {
-                    setError('User denied location permission or another error occurred');
+                    setError('Oops!. User denied location permission or another error occurred');
                     setLocation(null);
                 }
             );
         } else {
-            setError('Geolocation is not supported by your browser');
+            setError('Oops!. Geolocation is not supported by your browser');
         }
     };
 

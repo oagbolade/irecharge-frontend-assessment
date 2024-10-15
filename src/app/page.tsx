@@ -23,8 +23,8 @@ export interface ICity {
 export default function Home() {
   const [largesCitiesData, setLargestCitiesData] = React.useState<any | ICity>(getStoredCities() || []);
   const [cityPictures, setCityPictures] = React.useState<any | ICity>(getStoredCityPictures() || []);
-  const { userCurrentCity } = useGetUserCurrentCity();
-  const { location } = useGetLocationPermission();
+  const { isLoading: isCurrentCityLoading, userCurrentCity } = useGetUserCurrentCity();
+  const { location, error } = useGetLocationPermission();
   const { isLoading, data } = useQuery({ queryKey: ['fetchLargestCities'], queryFn: fetchLargestCities, enabled: Boolean(getStoredCities()) === false });
   const { isLoading: arePicturesLoading, data: picturesData } = useQuery({ queryKey: ['fetchRandomImages'], queryFn: fetchRandomImages, enabled: Boolean(getStoredCityPictures()) === false })
 
@@ -56,15 +56,9 @@ export default function Home() {
 
   return (
     <div>
-      {/* <div>
-        <h1>Get Current Location</h1>
-        <button onClick={getLocation}>Get Location</button>
-        {location && <p>Your Location: {location}</p>}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </div> */}
       <SearchBar />
-      {/* <LocalWeatherCard /> */}
-      <div className="columns-3 mx-auto py-20">
+      <LocalWeatherCard userCurrentCity={userCurrentCity} isCurrentCityLoading={isCurrentCityLoading} location={location} error={error} />
+      <div className="container mx-auto grid grid-cols-3 gap-10 py-20 w-full">
         {(largesCitiesData || [])?.map((city: ICity, index: number) => (
           <Card setLargestCitiesData={setLargestCitiesData} largesCitiesData={largesCitiesData} key={city.geonameId} geonameId={city.geonameId} cityName={city.name} population={formatPopulation(String(city.population))} image={cityPictures && cityPictures[index]?.urls?.small || []} detailsImage={cityPictures && cityPictures[index]?.urls?.raw || []} />
         ))}

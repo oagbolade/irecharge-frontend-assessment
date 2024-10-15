@@ -60,7 +60,7 @@ export const Card = ({ cityName, image, detailsImage, population, geonameId, set
     };
 
     return (
-        <article className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 max-w-sm mx-auto mb-10 hover:scale-105">
+        <article className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 w-full mx-auto mb-2 hover:scale-105">
             <div className='mx-6 absolute top-6 right-12 z-10'>
                 <Link href={`/details?city=${cityName}&image=${detailsImage}`}>
                     <Button title="View City" />
