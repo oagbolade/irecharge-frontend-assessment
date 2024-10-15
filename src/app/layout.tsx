@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Head from 'next/head'
 import {
   QueryClientProvider,
 } from '@tanstack/react-query';
@@ -32,7 +33,9 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <AlertContextProvider>
         <html lang="en">
-          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+          <Head>
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+          </Head>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
