@@ -14,16 +14,17 @@ import { ICity } from '@/app/page';
 import { DeleteButton } from './DeleteButton';
 
 type Props = {
+    isFavorite?: boolean;
     geonameId: number;
     cityName: string;
     image: string;
     detailsImage: string;
     population: string;
-    largesCitiesData: ICity[];
-    setLargestCitiesData: Dispatch<SetStateAction<ICity[]>>;
+    largesCitiesData?: ICity[];
+    setLargestCitiesData?: Dispatch<SetStateAction<ICity[] | undefined>>;
 }
 
-export const Card = ({ cityName, image, detailsImage, population, geonameId, setLargestCitiesData, largesCitiesData }: Props) => {
+export const Card = ({ cityName, image, detailsImage, population, geonameId, setLargestCitiesData, largesCitiesData, isFavorite }: Props) => {
     const favoritesStorage = JSON.parse(localStorage.getItem('favorites') as string);
     const [favorites, setFavorites] = useState(favoritesStorage || []);
 
@@ -54,13 +55,13 @@ export const Card = ({ cityName, image, detailsImage, population, geonameId, set
     };
 
     const handleDelete = () => {
-        const filteredCities = largesCitiesData.filter((city: ICity) => city.geonameId !== geonameId);
+        const filteredCities = largesCitiesData?.filter((city: ICity) => city.geonameId !== geonameId);
         localStorage.setItem(LARGEST_CITIES_KEY, JSON.stringify(filteredCities));
-        setLargestCitiesData(filteredCities);
+        setLargestCitiesData?.(filteredCities);
     };
 
     return (
-        <article className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 w-full mx-auto mb-2 hover:scale-105">
+        <article className={`relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 w-full mx-auto mb-2 ${isFavorite ? 'hover:scale-100' : 'hover:scale-105'} hover:scale-105`}>
             <div className='mx-6 absolute top-6 right-12 z-10'>
                 <Link href={`/details?city=${cityName}&image=${detailsImage}`}>
                     <Button title="View City" />
@@ -88,11 +89,13 @@ export const Card = ({ cityName, image, detailsImage, population, geonameId, set
             <div className="z-10 gap-y-1 overflow-hidden text-sm leading-6 text-white">
                 {isWeatherLoading ? 'Fetching city current time...' : weatherData?.location?.localtime.split(' ')[1]}
             </div>
-            <div className="z-10 gap-y-1 overflow-hidden text-sm leading-6 text-white absolute right-4">
-                <IconButton onClick={handleDelete} aria-label="delete">
-                    <DeleteButton title="Trash" isDelete />
-                </IconButton>
-            </div>
+            {!isFavorite &&
+                <div className="z-10 gap-y-1 overflow-hidden text-sm leading-6 text-white absolute right-4">
+                    <IconButton onClick={handleDelete} aria-label="delete">
+                        <DeleteButton title="Trash" isDelete />
+                    </IconButton>
+                </div>
+            }
         </article>
     );
 };

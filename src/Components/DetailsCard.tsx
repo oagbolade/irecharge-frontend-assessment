@@ -100,8 +100,6 @@ export const DetailsCard = ({ weatherData }: Props) => {
                     <span className="ml-1">Temperature is {weatherData?.current.temp_c} °C, feels like {weatherData?.current.feelslike_c} °C</span></a>
             </div>
             <hr />
-
         </div>
-
     )
 }
