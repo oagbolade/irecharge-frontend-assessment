@@ -1,23 +1,24 @@
+import React from 'react';
 import type { Metadata } from "next";
 import Head from 'next/head'
 import {
   QueryClientProvider,
 } from '@tanstack/react-query';
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
 import "./globals.css";
 import { queryClient } from "../../react-query/queryClient";
 import AlertContextProvider from "../../context/AlertContext";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+// const geistSans = localFont({
+//   src: "./fonts/GeistVF.woff",
+//   variable: "--font-geist-sans",
+//   weight: "100 900",
+// });
+// const geistMono = localFont({
+//   src: "./fonts/GeistMonoVF.woff",
+//   variable: "--font-geist-mono",
+//   weight: "100 900",
+// });
 
 export const metadata: Metadata = {
   title: "Largest Cities",
@@ -37,7 +38,7 @@ export default function RootLayout({
             <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
           </Head>
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             {children}
           </body>

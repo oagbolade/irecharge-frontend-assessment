@@ -1,5 +1,5 @@
+import React from 'react';
 import Image from 'next/image'
-import React from 'react'
 import { useGetParams } from '../../utils/useGetParams';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -56,9 +56,11 @@ export const DetailsCard = ({ weatherData }: Props) => {
     return (
         <div className="mb-10 rounded overflow-hidden flex flex-col mx-auto text-center">
             <a href="#"
-                className="max-w-3xl mx-auto text-xl sm:text-4xl font-semibold inline-block hover:text-indigo-600 transition duration-500 ease-in-out mb-2">
-                {weatherData?.location?.name}, {weatherData?.location?.country} </a>
-            <a href="#">
+                className="max-w-3xl mx-auto text-xl sm:text-4xl font-semibold inline-block hover:text-indigo-600 transition duration-500 ease-in-out mb-2"
+                data-testid="city-name">
+                {weatherData?.location?.name}, {weatherData?.location?.country}
+            </a>
+            <a href="#" data-testid="city-image">
                 {
                     isLoading ? 'Fetching City Image...' :
                         <Image className='inline my-4 rounded-lg' width={300} height={300}
@@ -67,16 +69,16 @@ export const DetailsCard = ({ weatherData }: Props) => {
                         />
                 }
             </a>
-            <p className="text-gray-700 text-base leading-8 max-w-2xl mx-auto">
+            <p className="text-gray-700 text-base leading-8 max-w-2xl mx-auto" data-testid="weather-condition">
                 Weather is {weatherData?.current?.condition?.text}{' '}
                 <Image className='inline' width={30} height={30}
                     src={`https:${weatherData?.current?.condition?.icon}`}
-                    alt="Sunset in the mountains" />
+                    alt="Weather Icon" />
             </p>
-            <p className="text-gray-700 text-base leading-8 max-w-2xl mx-auto">
+            <p className="text-gray-700 text-base leading-8 max-w-2xl mx-auto" data-testid="wind-speed">
                 Wind Speed: {weatherData?.current.wind_kph} km/h
             </p>
-            <div className="py-5 text-sm font-regular text-gray-900 flex items-center justify-center">
+            <div className="py-5 text-sm font-regular text-gray-900 flex items-center justify-center" data-testid="temperature">
                 <span className="mr-3 flex flex-row items-center">
                     <svg className="text-indigo-600" fill="currentColor" height="13px" width="13px" version="1.1" id="Layer_1"
                         xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -89,15 +91,13 @@ export const DetailsCard = ({ weatherData }: Props) => {
                             </g>
                         </g>
                     </svg>
-                    <span className="ml-1">{weatherData?.location.localtime.split(' ')[1]}</span></span>
-                <a href="#" className="flex flex-row items-center hover:text-indigo-600  mr-3">
-                    <svg className="text-indigo-600" fill="currentColor" height="16px" aria-hidden="true" role="img"
-                        focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                        <path fill=""
-                            d="M15.4496399,8.42490555 L8.66109799,1.63636364 L1.63636364,1.63636364 L1.63636364,8.66081885 L8.42522727,15.44178 C8.57869221,15.5954158 8.78693789,15.6817418 9.00409091,15.6817418 C9.22124393,15.6817418 9.42948961,15.5954158 9.58327627,15.4414581 L15.4486339,9.57610048 C15.7651495,9.25692435 15.7649133,8.74206554 15.4496399,8.42490555 Z M16.6084423,10.7304545 L10.7406818,16.59822 C10.280287,17.0591273 9.65554997,17.3181054 9.00409091,17.3181054 C8.35263185,17.3181054 7.72789481,17.0591273 7.26815877,16.5988788 L0.239976954,9.57887876 C0.0863319284,9.4254126 0,9.21716044 0,9 L0,0.818181818 C0,0.366312477 0.366312477,0 0.818181818,0 L9,0 C9.21699531,0 9.42510306,0.0862010512 9.57854191,0.239639906 L16.6084423,7.26954545 C17.5601275,8.22691012 17.5601275,9.77308988 16.6084423,10.7304545 Z M5,6 C4.44771525,6 4,5.55228475 4,5 C4,4.44771525 4.44771525,4 5,4 C5.55228475,4 6,4.44771525 6,5 C6,5.55228475 5.55228475,6 5,6 Z">
-                        </path>
-                    </svg>
-                    <span className="ml-1">Temperature is {weatherData?.current.temp_c} °C, feels like {weatherData?.current.feelslike_c} °C</span></a>
+                    <span className="ml-1" data-testid="local-time">
+                        {weatherData?.location.localtime.split(' ')[1]}
+                    </span>
+                </span>
+                <a href="#" className="flex flex-row items-center hover:text-indigo-600 mr-3">
+                    <span className="ml-1">Temperature is {weatherData?.current.temp_c} °C, feels like {weatherData?.current.feelslike_c} °C</span>
+                </a>
             </div>
             <hr />
         </div>

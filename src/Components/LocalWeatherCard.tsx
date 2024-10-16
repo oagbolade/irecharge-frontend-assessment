@@ -1,4 +1,4 @@
-import { searchWeather } from '@/api/useSearchWeather';
+import { searchWeather } from '../api/useSearchWeather';
 import { Cloud } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';

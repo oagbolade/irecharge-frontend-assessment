@@ -1,5 +1,5 @@
 'use client';
-import {
+import React, {
     Dispatch,
     SetStateAction,
     createContext,
@@ -20,12 +20,12 @@ const initialAlertContext = {
 };
 
 type AlertContextType = {
-    message: string;
-    open: boolean;
-    severity: AlertColor;
-    toggleAlert: () => void;
-    setMessage: Dispatch<SetStateAction<string>>;
-    setSeverity: Dispatch<SetStateAction<AlertColor>>;
+    message?: string;
+    open?: boolean;
+    severity?: AlertColor | string;
+    toggleAlert?: () => void;
+    setMessage?: Dispatch<SetStateAction<string>>;
+    setSeverity?: Dispatch<SetStateAction<AlertColor>>;
 };
 
 export const AlertContext = createContext<AlertContextType>(

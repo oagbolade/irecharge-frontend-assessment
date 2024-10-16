@@ -1,19 +1,19 @@
 'use client';
 import React from "react";
 import dynamic from "next/dynamic";
-import { fetchLargestCities } from "@/api/useFetchLargestCities";
+import { fetchLargestCities } from "../api/useFetchLargestCities";
 import {
     useQuery,
 } from '@tanstack/react-query'
-import { fetchRandomImages } from "@/api/useFetchRandomImages";
-import { SearchBar } from "@/Components/SearchBar";
+import { fetchRandomImages } from "../api/useFetchRandomImages";
+import { SearchBar } from "../Components/SearchBar";
 import { formatPopulation } from "../../utils/formatPopulation";
 import { getStoredCities, getStoredCityPictures, LARGEST_CITIES_IMAGES_KEY, LARGEST_CITIES_KEY } from "../../utils/offline-storage";
 import { useGetUserCurrentCity } from "../../utils/hooks/useGetUserCurrentCity";
 import { useGetLocationPermission } from "../../utils/hooks/useGetLocationPermission";
-import { LocalWeatherCard } from "@/Components/LocalWeatherCard";
+import { LocalWeatherCard } from "../Components/LocalWeatherCard";
 import { Box } from "@mui/material";
-import { FormSkeleton } from "@/Components/FormSkeleton";
+import { FormSkeleton } from "../Components/FormSkeleton";
 
 const Card = dynamic(() => import("@/Components/Card").then((mod) => mod.Card), {
     ssr: false,
