@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useGetParams } from '../../utils/useGetParams';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { FormSkeleton } from './FormSkeleton';
 
 interface IWeatherData {
     current: {
@@ -62,9 +63,9 @@ export const DetailsCard = ({ weatherData }: Props) => {
             </a>
             <a href="#" data-testid="city-image">
                 {
-                    isLoading ? 'Fetching City Image...' :
+                    isLoading ? <FormSkeleton noOfLoaders={5} /> :
                         <Image className='inline my-4 rounded-lg' width={300} height={300}
-                            src={currentCityImage || data?.[0]?.urls?.small}
+                            src={currentCityImage || data?.[0]?.urls?.thumb}
                             alt={weatherData?.location?.name}
                         />
                 }

@@ -1,4 +1,5 @@
 'use client';
+import React from "react";
 import dynamic from "next/dynamic";
 
 const Details = dynamic(() => import("@/features/Details").then((mod) => mod.default), {

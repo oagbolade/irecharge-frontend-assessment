@@ -9,6 +9,7 @@ const nextConfig = {
       "cdn.worldweatheronline.com",
       "cdn.weatherapi.com",
       "images.pexels.com",
+      "undefined",
     ],
   },
 };

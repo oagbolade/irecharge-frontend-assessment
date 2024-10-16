@@ -36,7 +36,7 @@ export const Favourites = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    {favorites?.length === 0 ? <p className="text-center text-gray-600">No favorites yet</p> : null}
+                    {favorites?.length === 0 ? <p className="text-center text-gray-600 pb-2">No favorites yet</p> : null}
                     {openFavorite && <div>
                         <div className="grid grid-cols-2 gap-4 px-4 pb-5 sm:px-6 sm:pb-6">
                             {largesCitiesData?.length > 0 && largesCitiesData.filter((city: ICity) => favorites?.includes(city.geonameId)).map((city: ICity, index: number) => (

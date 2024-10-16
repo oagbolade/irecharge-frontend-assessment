@@ -29,8 +29,8 @@ export const Notes = ({ note, noteId, setAllNotesFromCity, isNewNote }: Props) =
             localStorage.setItem(cityName, JSON.stringify(updatedNotes));
             setAllNotesFromCity?.({ [cityName]: updatedNotes } as unknown as INotes);
 
-            setMessage('Note saved successfully');
-            toggleAlert();
+            setMessage?.('Note saved successfully');
+            toggleAlert?.();
             return;
         }
 
@@ -42,8 +42,8 @@ export const Notes = ({ note, noteId, setAllNotesFromCity, isNewNote }: Props) =
             localStorage.setItem(cityName, JSON.stringify({ [cityName]: notesStorage[cityName] }));
             setAllNotesFromCity?.({ [cityName]: notesStorage[cityName] } as unknown as INotes);
 
-            setMessage('Note saved successfully');
-            toggleAlert();
+            setMessage?.('Note saved successfully');
+            toggleAlert?.();
             return;
         }
     }
@@ -54,8 +54,8 @@ export const Notes = ({ note, noteId, setAllNotesFromCity, isNewNote }: Props) =
         localStorage.setItem(cityName, JSON.stringify({ [cityName]: notesStorage[cityName] }));
         setAllNotesFromCity?.({ [cityName]: notesStorage[cityName] } as unknown as INotes);
 
-        setMessage('Note deleted successfully');
-        toggleAlert();
+        setMessage?.('Note deleted successfully');
+        toggleAlert?.();
     }
 
     return (

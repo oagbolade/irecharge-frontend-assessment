@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { searchWeather } from "../api/useSearchWeather";
 import { Alert, AlertColor, Box, Button, IconButton } from "@mui/material";
@@ -19,12 +19,14 @@ const Notes = dynamic(() => import("@/Components/Notes").then((mod) => mod.Notes
 
 export default function Details() {
     const { open, message, severity } = useContext(AlertContext);
-    let cityName = '';
+    const [cityName, setCityName] = useState<string>('');
 
-    if (typeof window !== 'undefined') {
-        const searchParams = new URLSearchParams(window.location.search);
-        cityName = searchParams.get('city') || '';
-    }
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const searchParams = new URLSearchParams(window.location.search);
+            setCityName(searchParams.get('city') || '');
+        }
+    }, []);
 
     const storedNotes = getStoredNotes(cityName);
     const [moreNotes, setMoreNotes] = useState<number>(0);

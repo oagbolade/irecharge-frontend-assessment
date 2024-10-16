@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { searchWeather } from '../api/useSearchWeather';
 import { Cloud } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
@@ -15,7 +16,11 @@ type Props = {
 
 export const LocalWeatherCard = ({ userCurrentCity, isCurrentCityLoading, location, error }: Props) => {
     if (isCurrentCityLoading) {
-        return 'Fetching current city...';
+        return (
+            <Box m={16}>
+                <FormSkeleton noOfLoaders={5} />
+            </Box>
+        );
     }
 
     const { isLoading: isWeatherLoading, data: weatherData } = useQuery({
@@ -47,8 +52,8 @@ export const LocalWeatherCard = ({ userCurrentCity, isCurrentCityLoading, locati
                                 <div className="w-full sm:flex justify-between items-center mb-3">
                                     <h2 className="text-2xl leading-snug font-extrabold text-gray-50 truncate mb-1 sm:mb-0">Local Weather</h2>
                                 </div>
-                                {error && <p className="text-indigo-100 font-bold">{error}</p>}
-                                {!location && <p className="text-indigo-100 font-bold">Oops!. Cannot get location information</p>}
+                                {error && <p className="text-red-300 font-bold">{error}</p>}
+                                {!location && <p className="text-red-300 font-bold">Cannot get location information</p>}
                                 {(!error && location) && <div className="flex items-end justify-between whitespace-normal">
                                     <div className="max-w-md text-indigo-100">
                                         <p className="mb-0 font-bold">{userCurrentCity}</p>
